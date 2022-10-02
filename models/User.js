@@ -1,19 +1,20 @@
-import { Schema, model} from 'mongoose';
+import { Schema, model } from "mongoose";
+import validator from "validator";
 
 const UserSchema = new Schema({
-  Reg_no: {
+  Reg_Id: {
     type: Number,
-    unique: true,
     required: [true, "Please enter a valid Registration Id."],
   },
   email: {
     type: String,
     unique: true,
-    required: [true, "Please a valid user email."],
+    required: [true, "Please enter a valid Email."],
     validate: [validator.isEmail, "Please enter a valid Email"],
   },
   userName: {
     type: String,
+    unique: true,
     required: [true, "Please enter a valid user name."],
     minLength: [3, "Name must be at least 3 characters"],
   },
@@ -32,8 +33,9 @@ const UserSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  student_id: { type: Schema.ObjectId, ref: "Registration_Id", required: true },
   resetPasswordToken: String,
-  resetPasswordExpire: String
+  resetPasswordExpire: String,
 });
 
 export default model("User", UserSchema);

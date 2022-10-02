@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const Id_Schema = new Schema({
-    Reg_no: {
+    Reg_Id: {
         type: Number,
         required: [true, "Please enter a valid Registration Number."]
     }

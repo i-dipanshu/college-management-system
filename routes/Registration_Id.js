@@ -1,8 +1,9 @@
 import express from "express";
-import Registration_Id from "../controllers/Registration_Id";
+import { createNewRegID, deleteRegId } from "../controllers/Registration_Id.js";
 
 const router = express.Router();
 
-router.post("/admin/newId", Registration_Id);
+router.post("/admin/id/new", createNewRegID);
+router.delete("/admin/id/delete", deleteRegId);
 
 export default router;
