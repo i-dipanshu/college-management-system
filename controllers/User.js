@@ -1,5 +1,6 @@
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 import CollegeId from "../models/admin/CollegeId.js";
+import Student from "../models/admin/Students/Student.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import token from "../utils/token.js";
@@ -104,9 +105,18 @@ export const logoutUser = asyncErrorHandler(async (req, res, next) => {
 export const getMe = asyncErrorHandler(async (req, res, next) => {
   const user = req.user;
 
+  const { regd } = user;
+
+  const student = await Student.findOne({ regd });
+
+  if (!student) {
+    return next(new ErrorHandler(404, "Your are not registered."));
+  }
+
   res.status(200).json({
     success: true,
     user,
+    student,
   });
 });
 
