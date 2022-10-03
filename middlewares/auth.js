@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User";
-import ErrorHandler from "../utils/ErrorHandler";
-import asyncErrorHandler from "./asyncErrorHandler";
+import User from "../models/User.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
+import asyncErrorHandler from "./asyncErrorHandler.js";
 
-export const isUserAuthenticated = asyncErrorHandler(async () => {
+export const isUserAuthenticated = asyncErrorHandler(async (req, res, next) => {
   const { token } = req.cookies;
 
   // not found
@@ -21,6 +21,7 @@ export const isUserAuthenticated = asyncErrorHandler(async () => {
 // verify roles
 
 export const isRole = (...roles) => {
+  return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHandler(
@@ -32,4 +33,5 @@ export const isRole = (...roles) => {
 
     // and if role is admin
     next();
+  };
 };
