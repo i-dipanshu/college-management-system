@@ -17,28 +17,25 @@ export const createNewUser = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const loginUserEmail = asyncErrorHandler(async (req, res, next) => {
-  // const { email, password } = req.body;
+  const { email, password } = req.body;
 
   // not found
-  // if (!email || !password) {
-  //   return next(new ErrorHandler(400, "Invalid Email or Password"));
-  // }
+  if (!email || !password) {
+    return next(new ErrorHandler(400, "Invalid Email or Password"));
+  }
 
   // finding user
-  const user = await User.findOne({ email: req.body.email }).select(
-    "+password"
-  );
+  const user = await User.findOne({ email }).select("+password");
 
-  console.log(user);
   // not found
   if (!user) {
     return next(new ErrorHandler(401, "Invalid Email or Password"));
   }
 
-  console.log(user);
   // compare password
-  const isPasswordCorrect = await user.comparePassword(req.body.password);
+  const isPasswordCorrect = await user.comparePassword(password);
 
+  // not matched
   if (!isPasswordCorrect) {
     return next(new ErrorHandler(401, "Invalid Email or Password."));
   }
@@ -46,6 +43,74 @@ export const loginUserEmail = asyncErrorHandler(async (req, res, next) => {
   token(user, 200, res);
 });
 
+export const loginUserUserName = asyncErrorHandler(async (req, res, next) => {
+  const { userName, password } = req.body;
+
+  if (!userName || !password) {
+    return next(new ErrorHandler(400, "Invalid username or password"));
+  }
+
+  const user = await User.findOne({ userName }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler(400, "Invalid username or password"));
+  }
+
+  const isPasswordCorrect = user.comparePassword(password);
+
+  if (!isPasswordCorrect) {
+    return next(new ErrorHandler(400, "Invalid username or password"));
+  }
+
+  token(user, 200, res);
+});
+
+export const loginUserRegd = asyncErrorHandler(async (req, res, next) => {
+  const { regd, password } = req.body;
+
+  if (!regd || !password) {
+    return next(new ErrorHandler(400, "Invalid College Id or password"));
+  }
+
+  const user = await User.findOne({ regd }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler(400, "Invalid College Id or password"));
+  }
+
+  const isPasswordCorrect = user.comparePassword(password);
+
+  if (!isPasswordCorrect) {
+    return next(new ErrorHandler(400, "Invalid College Id or password"));
+  }
+
+  token(user, 200, res);
+});
+
+// logout
+export const logoutUser = asyncErrorHandler(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: false,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully.",
+  });
+});
+
+// get me -- logged in
+export const getMe = asyncErrorHandler(async (req, res, next) => {
+  const user = req.user;
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+// get all user -- logged in
 export const getAllUser = asyncErrorHandler(async (req, res, next) => {
   const users = await User.find();
 

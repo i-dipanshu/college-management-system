@@ -1,5 +1,5 @@
 import express from "express";
-
+import cookieParser from "cookie-parser";
 // middleware imports
 import handleErrors from "./middlewares/handleErrors.js";
 
@@ -11,6 +11,7 @@ const app = express();
 
 // middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(handleErrors);
 
 // routes at localhost:4000/
