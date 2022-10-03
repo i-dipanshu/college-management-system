@@ -1,17 +1,16 @@
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
-import Registration_Id from "../models/Registration_Id.js";
+import CollegeId from "../models/admin/CollegeId.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const createNewUser = asyncErrorHandler(async (req, res, next) => {
-  const id = await Registration_Id.findOne({ Reg_Id: req.body.Reg_Id });
+  const id = await CollegeId.findOne({ Reg_Id: req.body.Reg_Id });
 
   if (!id) {
     return next(new ErrorHandler(404, "Invalid Registration Id"));
   }
 
   const body = { ...req.body, student_id: id._id };
-
 
   const user = await User.create(body);
 

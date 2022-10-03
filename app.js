@@ -4,7 +4,7 @@ import express from "express";
 import handleErrors from "./middlewares/handleErrors.js";
 
 // routes import
-import Registration_Id from "./routes/Registration_Id.js";
+import Registration_Id from "./routes/CollegeId.js";
 import User from "./routes/User.js";
 
 const app = express();

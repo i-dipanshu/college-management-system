@@ -2,8 +2,9 @@ import { Schema, model } from "mongoose";
 import validator from "validator";
 
 const UserSchema = new Schema({
-  Reg_Id: {
+  regd: {
     type: Number,
+    unique: true,
     required: [true, "Please enter a valid Registration Id."],
   },
   email: {

@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewRegID, deleteRegId } from "../controllers/Registration_Id.js";
+import { createNewRegID, deleteRegId } from "../controllers/CollegeId.js";
 
 const router = express.Router();
 
