@@ -4,16 +4,6 @@ import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 
 const UserSchema = new Schema({
-  fname: {
-    type: String,
-    required: [true, "Please enter a valid name."],
-    minLength: [3, "Invalid Name"],
-  },
-  lname: {
-    type: String,
-    required: [true, "Please enter a valid name."],
-    minLength: [3, "Invalid Name"],
-  },
   regd: {
     type: Number,
     unique: true,

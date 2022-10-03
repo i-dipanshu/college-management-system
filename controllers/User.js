@@ -110,7 +110,7 @@ export const getMe = asyncErrorHandler(async (req, res, next) => {
   const student = await Student.findOne({ regd });
 
   if (!student) {
-    return next(new ErrorHandler(404, "Your are not registered."));
+    return next(new ErrorHandler(404, "You are not a registered student."));
   }
 
   res.status(200).json({
