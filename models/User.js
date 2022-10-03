@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
+import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
 
 const UserSchema = new Schema({
   regd: {
@@ -34,9 +36,34 @@ const UserSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
-  student_id: { type: Schema.ObjectId, ref: "Registration_Id", required: true },
+  college_id: { type: Schema.ObjectId, ref: "CollegeId", required: true },
   resetPasswordToken: String,
   resetPasswordExpire: String,
 });
+
+// methods
+
+// this function runs before saving the document to database
+UserSchema.pre("save", async function (next) {
+  // condition to avoid hashing the already hashed password during updating the fields
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  // hashing the password
+  this.password = await bcryptjs.hash(this.password, 10);
+});
+
+// comparing password
+UserSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcryptjs.compare(enteredPassword, this.password);
+};
+
+// generating jwt
+UserSchema.methods.createToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
+};
 
 export default model("User", UserSchema);
