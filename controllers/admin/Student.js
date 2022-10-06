@@ -48,6 +48,15 @@ export const getOneStudent = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+/* ------------------------------------------------------------------------------- */
 
 // get all students
 
+export const getAllStudent = asyncErrorHandler(async (req, res, next) => {
+  const students = await Student.findOne({ regd: 2141011117 });
+
+  res.status(200).json({
+    success: true,
+    students,
+  });
+});

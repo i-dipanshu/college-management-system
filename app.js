@@ -20,7 +20,8 @@ app.use(handleErrors);
 app.use("/api/v1", User);
 
 // strictly for admins
-app.use("/api/v1/admin", isUserAuthenticated, isRole("admin"), CollegeId);
+app.use("/api/v1/admin", CollegeId);
+// app.use("/api/v1/admin", isUserAuthenticated, isRole("admin"), CollegeId);
 app.use("/api/v1/admin", isUserAuthenticated, isRole("admin"), Student);
 
 export default app;
