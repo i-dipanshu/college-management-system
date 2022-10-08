@@ -81,3 +81,21 @@ export const deleteOneStudent = asyncErrorHandler(async (req, res, next) => {
     message: "Student successfully deleted.",
   });
 });
+
+/* ------------------------------------------------------------------------------- */
+
+export const updateStudent = asyncErrorHandler(async (req, res, next) => {
+  const student = await Student.find({ regd: req.params.regd });
+
+  if (!student) {
+    return next(new ErrorHandler(404, "Student not found."));
+  }
+
+  const newData = await student.update(req.body);
+
+  res.status(204).json({
+    success: true,
+    message: "Student updated successfully",
+    newData,
+  });
+});
