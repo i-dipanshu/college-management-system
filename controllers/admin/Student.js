@@ -52,11 +52,32 @@ export const getOneStudent = asyncErrorHandler(async (req, res, next) => {
 
 // get all students
 
-export const getAllStudent = asyncErrorHandler(async (req, res, next) => {
-  const students = await Student.findOne({ regd: 2141011117 });
+export const getAllStudents = asyncErrorHandler(async (req, res, next) => {
+  const students = await Student.find();
+
+  console.log(students);
 
   res.status(200).json({
     success: true,
     students,
+  });
+});
+
+/* ------------------------------------------------------------------------------- */
+
+export const deleteOneStudent = asyncErrorHandler(async (req, res, next) => {
+  const regd = req.params.regd;
+
+  const student = await Student.findOne({ regd });
+
+  if (!student) {
+    return next(new ErrorHandler(404, "Student not found."));
+  }
+
+  await student.remove();
+
+  res.status(200).json({
+    success: true,
+    message: "Student successfully deleted.",
   });
 });

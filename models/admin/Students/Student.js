@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const StudentInfoSchema = new Schema({
   regd: {
-    type: Number,
+    type: String,
     unique: true,
     required: [true, "Invalid Regd"],
   },
@@ -11,7 +11,7 @@ const StudentInfoSchema = new Schema({
     required: [true, "Invalid Name"],
   },
   semester: {
-    type: Number,
+    type: String,
     enum: [1, 2, 3, 4, 5, 6, 7, 8],
     required: [true, "Invalid semester"],
   },
@@ -26,7 +26,7 @@ const StudentInfoSchema = new Schema({
   result: [
     {
       semester: {
-        type: Number,
+        type: String,
         enum: [1, 2, 3, 4, 5, 6, 7, 8],
         required: [true, "Invalid semester"],
       },
@@ -48,7 +48,7 @@ const StudentInfoSchema = new Schema({
   fees: [
     {
       semester: {
-        type: Number,
+        type: String,
         enum: [1, 2, 3, 4, 5, 6, 7, 8],
         required: [true, "Invalid semester"],
       },
@@ -56,34 +56,34 @@ const StudentInfoSchema = new Schema({
         {
           academic: {
             paid: {
-              type: Number,
+              type: String,
               required: true,
               default: 0,
             },
             total: {
-              type: Number,
+              type: String,
               required: [true, "Enter a valid total academic fee"],
             },
           },
           hostel: {
             paid: {
-              type: Number,
+              type: String,
               required: true,
               default: 0,
             },
             total: {
-              type: Number,
+              type: String,
               required: [true, "Enter a valid total hostel fee"],
             },
           },
           others: {
             paid: {
-              type: Number,
+              type: String,
               required: true,
               default: 0,
             },
             total: {
-              type: Number,
+              type: String,
               required: [true, "Enter a valid total other fee"],
             },
           },
